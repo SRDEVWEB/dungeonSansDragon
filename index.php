@@ -9,79 +9,257 @@
 // - life (int) (0-100)
 // - mana (int) (0-100)
 // - classe (string) : guerrier, mage, voleur, archer, ....
-// _______ inventory & stuff
-// - weapon (Weapon)  : equipped item
-// - shield (Shield) : equipped item
-// - bag (Bag)
 
-abstract class Perso
-{
-    protected string $nom;
-    protected datetime $dateDeCreation;
+abstract class Character {
+    /**
+     * @var string : Character name
+     */
+    protected string $name;
+    /**
+     * @var DateTime : Creation date
+     */
+    protected DateTime $creationDate;
+    /**
+     * @var int : Physical power stat
+     */
     protected int $phyPower;
+    /**
+     * @var int : Magical power stat
+     */
     protected int $magPower;
-    protected int $escape;
+    /**
+     * @var int : Armor stat
+     */
     protected int $armor;
+    /**
+     * @var int : Dodge stat
+     */
+    protected int $escape;
+    /**
+     * @var int : HP stat
+     */
     protected int $life;
+    /**
+     * @var int : MP stat
+     */
     protected int $mana;
-    protected string $classe;
+    /**
+     * @var Weapon|null : equipped weapon
+     */
+    protected ?Weapon $weapon;
+    /**
+     * @var Shield|null : equipped shield
+     */
+    protected ?Shield $shield;
+    /**
+     * @var Bag : backpack
+     */
     protected Bag $inventory;
-    protected Weapon $weapon;
-    protected Shield $shield;
+    /**
+     * @var string : character class
+     */
+    protected string $classe;
 
-    public function __construct(string $nom, string $classe)
-    {
-        $this->nom = $nom;
-        $this->dateDeCreation = new DateTime();
-        $this->phyPower = 100;
-        $this->magPower = 50;
-        $this->armor = 50;
-        $this->escape = 50;
+    public function __construct(
+        string $name,
+        string $classe
+    ){
+        $this->name = $name;
+        $this->creationDate = new \DateTime();
+        $this->phyPower = 10;
+        $this->magPower = 10;
+        $this->armor = 10;
+        $this->escape = 10;
         $this->life = 100;
         $this->mana = 10;
+        $this->weapon = null;
+        $this->shield = null;
+        $this->inventory = new Bag(24);
         $this->classe = $classe;
-        $this->inventory = new Bag();
-
     }
 
     /**
      * @return string
      */
-    public function getShield(): string
+    public function getName(): string
     {
-        return $this->shield;
+        return $this->name;
     }
 
     /**
-     * @param string $shield
+     * @param string $name
      */
-    public function setShield(string $shield): perso
+    public function setName(string $name): Character
     {
-        $this->shield = $shield;
+        $this->name = $name;
+
         return $this;
     }
 
     /**
-     * @return string
+     * @return DateTime
      */
-    public function getWeapon(): string
+    public function getCreationDate(): DateTime
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * @param DateTime $creationDate
+     */
+    public function setCreationDate(DateTime $creationDate): Character
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPhyPower(): int
+    {
+        return $this->phyPower;
+    }
+
+    /**
+     * @param int $phyPower
+     */
+    public function setPhyPower(int $phyPower): Character
+    {
+        $this->phyPower = $phyPower;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMagPower(): int
+    {
+        return $this->magPower;
+    }
+
+    /**
+     * @param int $magPower
+     */
+    public function setMagPower(int $magPower): Character
+    {
+        $this->magPower = $magPower;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getArmor(): int
+    {
+        return $this->armor;
+    }
+
+    /**
+     * @param int $armor
+     */
+    public function setArmor(int $armor): Character
+    {
+        $this->armor = $armor;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEscape(): int
+    {
+        return $this->escape;
+    }
+
+    /**
+     * @param int $escape
+     */
+    public function setEscape(int $escape): Character
+    {
+        $this->escape = $escape;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLife(): int
+    {
+        return $this->life;
+    }
+
+    /**
+     * @param int $life
+     */
+    public function setLife(int $life): Character
+    {
+        $this->life = $life;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMana(): int
+    {
+        return $this->mana;
+    }
+
+    /**
+     * @param int $mana
+     */
+    public function setMana(int $mana): Character
+    {
+        $this->mana = $mana;
+
+        return $this;
+    }
+
+    /**
+     * @return Weapon|null
+     */
+    public function getWeapon(): ?Weapon
     {
         return $this->weapon;
     }
 
     /**
-     * @param string $weapon
+     * @param Weapon|null $weapon
      */
-    public function setWeapon(string $weapon): perso
+    public function setWeapon(?Weapon $weapon): Character
     {
         $this->weapon = $weapon;
         return $this;
     }
 
     /**
+     * @return Shield|null
+     */
+    public function getShield(): ?Shield
+    {
+        return $this->shield;
+    }
+
+    /**
+     * @param Shield|null $shield
+     */
+    public function setShield(?Shield $shield): Character
+    {
+        $this->shield = $shield;
+        return $this;
+    }
+
+    /**
      * @return Bag
      */
-    public function getInventory()
+    public function getInventory(): Bag
     {
         return $this->inventory;
     }
@@ -89,7 +267,7 @@ abstract class Perso
     /**
      * @param Bag $inventory
      */
-    public function setInventory(string $inventory): Perso
+    public function setInventory(Bag $inventory): Character
     {
         $this->inventory = $inventory;
         return $this;
@@ -98,7 +276,7 @@ abstract class Perso
     /**
      * @return string
      */
-    public function getClasse()
+    public function getClasse(): string
     {
         return $this->classe;
     }
@@ -106,227 +284,392 @@ abstract class Perso
     /**
      * @param string $classe
      */
-    public function setClasse(string $classe): Perso
+    public function setClasse(string $classe): Character
     {
         $this->classe = $classe;
         return $this;
     }
 
+    public function useItem(Item $item) {
+        if($item instanceof Potion && $item->isUsed() === false) {
+            // ====>
+            if($item->getType() === Potion::POTION_HEALTH){
+                $this->life += $item->getAmount();
+                if($this->life > 100) {
+                    $this->life = 100;
+                }
+            } elseif($item->getType() === Potion::POTION_MANA){
+                $this->mana += $item->getAmount();
+                if($this->mana > 100) {
+                    $this->mana = 100;
+                }
+            }
+            $item->setUsed(true);
+            echo $this->getName() . " used " . $item->getName() . " and now has " . $this->getLife() . " HP and " . $this->getMana() . " MP" . PHP_EOL;
+        }
+    }
+    // TODO - [public] useItem(Item $item) => if item.equipable === false
+
+    public function equipItem (Item $item) {
+        if(!$this->getInventory()->hasItem($item)){
+            throw new \Exception("You don't have this item in your inventory");
+        }
+        echo $this->getName() . " equip " . $item->getName() . PHP_EOL;
+    }
+
+    public function receiveDamage(int $damage) {
+        $this->life -= $damage;
+        if($this->life < 0) {
+            $this->life = 0;
+        }
+        echo $this->name . " received " . $damage . " damage and now has " . $this->life . " life points left" . PHP_EOL;
+    }
+    // TODO - [public] equipItem (Item $item) => if item.equipable === true
+
+    // TODO item is Shield : ($item === Shield && Personnage.weapon.isTwoHanded === false)
+    // TODO item is weapon : ($item === Weapon) => si item.isTwoHanded === true => unequipItem($shield)
+    // TODO - [public] unequipItem (Item $item) : deséquiper un item
+    // TODO - [public] attackTarget(Personnage $target) : attaquer un personnage => code pour calculer les dégats et l'utilisation de mana
+    // TODO $damage = [calcul des dmg];
+    // TODO $target->receiveDamage($damage);
+    // TODO [public] receiveDamage(int $damage) : recevoir des dégats => code pour calculer les dégats
+    // TODO - [private] isDodged() : calculer si le personnage a esquivé l'attaque mt_rand(0,  (escape - 100)) === (escape - 100)
+    // TODO - [public] isAlive() : vérifier si le personnage est en vie
+    // TODO Personnage->useItem(Item $item)
+    // TODO Personnage->equipItem(Item $item) -> if item.equipable === true
+    // TODO Personnage->attackTarget(Personnage $target)
+}
+
+class Bag {
     /**
-     * @param string $nom
+     * @var int : Item storage size
      */
-    public function setNom(string $nom): Perso
+    protected int $size;
+    /**
+     /* @var array : Item list
+     */
+    protected array $item;
+
+    public function __construct(
+        int $size
+    )
     {
-        $this->nom = $nom;
+        $this->size = $size;
+        $this->item = [];
+    }
+
+    public function addItem(Item $item) : Bag
+    {
+        if(count($this->item) < $this->size) {
+            $this->item[] = $item;
+        } else {
+            throw new \Exception("Your bag is full");
+        }
+        return $this;
+    }
+    // TODO addItem(Item $item): Bag
+
+    public function removeItem(Item $item) : Bag
+    {
+
+
+        return $this;
+    }
+    // TODO removeItem(Item $item): Bag
+
+    public function hasItem(Item $item) : bool
+    {
+
+        return $this;
+    }
+    // TODO hasItem(Item $item): bool
+}
+
+class Warrior extends Character  {
+
+    public function __construct(string $name)
+    {
+        parent::__construct($name, 'Warrior');
+        $this->setPhyPower(random_int(20, 40));
+        $this->setMagPower(random_int(0, 10));
+        $this->setEscape(random_int(0, 100));
+    }
+
+}
+class Mage extends Character {
+    public function __construct(string $name)
+    {
+        parent::__construct($name, 'Mage');
+        $this->setPhyPower(random_int(0, 10));
+        $this->setMagPower(random_int(20, 40));
+        $this->setEscape(random_int(0, 100));
+    }
+}
+class Rogue extends Character {
+    public function __construct(string $name)
+    {
+        parent::__construct($name, 'Rogue');
+        $this->setPhyPower(random_int(10, 20));
+        $this->setMagPower(random_int(5, 15));
+        $this->setEscape(random_int(0, 50));
+    }
+}
+abstract class Foe extends Character {
+// TODO nom random, stats random
+// TODO Foe : bat|zombie|orc|gobelin|squelette
+// TODO each Foe override attackTarget(Personnage $target) => code pour calculer les dégats et l'utilisation de mana
+
+}
+abstract class Item {
+    /**
+     * @var string : Item name
+     */
+    protected string $name;
+    /**
+     * @var string : Item description
+     */
+    protected string $description;
+    /**
+     * @var bool : If item is equipable
+     */
+    protected bool $equipable;
+    /**
+     * @var string : Item type
+     */
+    protected string $category;
+    /**
+     * @var string : Item id
+     */
+    protected string $id;
+
+    public function __construct(
+        string $name,
+        string $description,
+        bool $equipable,
+        string $category
+    )
+    {
+        $this->name = $name;
+        $this->description = $description;
+        $this->equipable = $equipable;
+        $this->type = $category;
+        $this->id = microtime() . random_int(1,999);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategory(): string
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param string $category
+     */
+    public function setCategory(string $category): Item
+    {
+        $this->category = $category;
+        return $this;
+    }
+// TODO - type (string) : weapon|shield|armor|potion|food|key|quest|misc
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name): Item
+    {
+        $this->name = $name;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getNom()
+    public function getDescription(): string
     {
-        return $this->nom;
-    }
-
-
-    /**
-     * @return datetime
-     */
-    public function getDateDeCreation(): DateTime
-    {
-        return $this->dateDeCreation;
+        return $this->description;
     }
 
     /**
-     * @param datetime $dateDeCreation
+     * @param string $description
      */
-    public function setDateDeCreation($dateDeCreation): Perso
+    public function setDescription(string $description): Item
     {
-        $this->dateDeCreation = $dateDeCreation;
+        $this->description = $description;
         return $this;
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getPhyPower()
+    public function isEquipable(): bool
     {
-        return $this->phyPower;
+        return $this->equipable;
     }
 
     /**
-     * @param int $phyPower
+     * @param bool $equipable
      */
-    public function setPhyPower($phyPower): Perso
+    public function setEquipable(bool $equipable): Item
     {
-        $this->phyPower = $phyPower;
+        $this->equipable = $equipable;
         return $this;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getMagPower()
+    public function getType(): string
     {
-        return $this->magPower;
+        return $this->type;
     }
 
     /**
-     * @param int $magPower
+     * @param string $type
      */
-    public function setMagPower($magPower): Perso
+    public function setType(string $type): Item
     {
-        $this->magPower = $magPower;
+        $this->type = $type;
         return $this;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getArmor()
+    public function getId(): string
     {
-        return $this->armor;
+        return $this->id;
     }
 
     /**
-     * @param int $armor
+     * @param string $id
      */
-    public function setArmor($armor): Perso
+    public function setId(string $id): Item
     {
-        $this->armor = $armor;
+        $this->id = $id;
         return $this;
     }
-
-    /**
-     * @return int
-     */
-    public function getEscape()
-    {
-        return $this->escape;
-    }
-
-    /**
-     * @param int $escape
-     */
-    public function setEscape($escape): Perso
-    {
-        $this->escape = $escape;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLife()
-    {
-        return $this->life;
-    }
-
-    /**
-     * @param int $life
-     */
-    public function setLife($life): Perso
-    {
-        $this->life = $life;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMana()
-    {
-        return $this->mana;
-    }
-
-    /**
-     * @param int $mana
-     */
-    public function setMana($mana): Perso
-    {
-        $this->mana = $mana;
-        return $this;
-    }
-
 
 
 }
-class Bag {
-    protected string $weapon;
-    protected string $shield;
-
+class Weapon extends Item {
+// TODO - damage (int)
+// TODO - isTwoHanded (bool)
+// TODO - weaponClass (string) : sword|axe|dagger|bow|staff|wand|spear|hammer|fist
 }
-
-class Warrior extends Perso
+class Shield extends Item {
+// TODO - armor (int)
+    protected int $armor;
+}
+class Potion extends Item
 {
-public function __construct(string $nom)
-{
-    parent::__construct($nom, 'Warrior');
-    $this->setPhyPower(random_int(10,50));
-    $this->setMagPower(random_int(20,50));
-    $this->setEscape(random_int(0,100));
-}
+// TODO - const TYPE_HEAL = 'heal', TYPE_MANA = 'mana'
+// TODO - amount (float)
+// TODO - type (string)(self::TYPE_HEAL|self::TYPE_MANA)
+// TODO - used (bool) (false)
+
+    public const POTION_HEALTH = "POTION_HEALTH";
+    public const POTION_MANA = "POTION_MANA";
+
+    protected int $amount;
+    protected string $type;
+    protected bool $used;
+
+    public function  __construct( $name, $description, string $type = self::POTION_HEALTH)
+    {
+        parent::__construct($name, $description,false, 'Potion');
+        $this->type = $type;
+        $this->used = false;
+        switch ($type) {
+        case self::POTION_HEALTH:
+        $this -> amount = 20;
+        break;
+        case self::POTION_MANA:
+        $this -> amount = 30;
+        break;
+        }
+   }
+
+
+    /**
+     * @return float
+     */
+    public function getAmount(): float
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @param float $amount
+     */
+    public function setAmount(float $amount): void
+    {
+        $this->amount = $amount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType(string $type): Potion
+    {
+        $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUsed(): bool
+    {
+        return $this->used;
+    }
+
+    /**
+     * @param bool $used
+     */
+    public function setUsed(bool $used): void
+    {
+        $this->used = $used;
+    }
+
+
 
 }
-$perso1= new Warrior('Sebastien');
 
-var_dump($perso1, "------------");
-
-
+$axeOfDeath = new Weapon('Axe of Death', 'Axe of Death', true, 'weapon');
+$maxiHealthPotion = new Potion('POTION_HEALTH', 'Maxi Health Potion', false, 'potion');
 
 
+$brutus = new Warrior("Marcel");
+$gandolfr = new Mage("Bob");
+$saskue = new Rogue("Arsene");
+
+$brutus->getInventory()->addItem($maxiHealthPotion);
+// ...
+$brutus->receiveDamage(50);
+// ...
+$brutus->useItem($maxiHealthPotion);
 
 
+var_dump($brutus, '______________', $gandolfr, '______________', $saskue);
 
-
-
-// Personnage (méthodes):
-// - [public] useItem(Item $item) => if item.equipable === false
-//
-// - [public] equipItem (Item $item) => if item.equipable === true
-// item is Shield : ($item === Shield && Personnage.weapon.isTwoHanded === false)
-// item is weapon : ($item === Weapon) => si item.isTwoHanded === true => unequipItem($shield)
-//
-// - [public] unequipItem (Item $item) : deséquiper un item
-//
-// - [public] attackTarget(Personnage $target) : attaquer un personnage => code pour calculer les dégats et l'utilisation de mana
-// $damage = [calcul des dmg];
-// $target->receiveDamage($damage);
-//
-// - [public] receiveDamage(int $damage) : recevoir des dégats => code pour calculer les dégats
-//
-// - [private] isDodged() : calculer si le personnage a esquivé l'attaque mt_rand(0,  (escape - 100)) === (escape - 100)
-//
-// - [public] isAlive() : vérifier si le personnage est en vie
-
-// Mage extends Personnage
-// Warrior extends Personnage
-// Rogue extends Personnage
-
-// [abstract] Foe extends Personnage => nom random, stats random
-// Foe : bat|zombie|orc|gobelin|squelette
-// each Foe override attackTarget(Personnage $target) => code pour calculer les dégats et l'utilisation de mana
-
-// [abstract] item :
-// - name (string)
-// - description (string)
-// - equipable (bool)
-// - type (string) : weapon|shield|armor|potion|food|key|quest|misc
-
-// weapon extend item :
-// - damage (int)
-// - isTwoHanded (bool)
-// - weaponClass (string) : sword|axe|dagger|bow|staff|wand|spear|hammer|fist
-
-// shield extend item :
-// - armor (int)
-
-// potion extend item :
-// - const TYPE_HEAL = 'heal', TYPE_MANA = 'mana'
-// - amount (float)
-// - type (string)(self::TYPE_HEAL|self::TYPE_MANA)
-// - used (bool) (false)
 
 // Item > Weapon > Sword > LongSword
 // Item > Weapon > Sword > GreatSword
